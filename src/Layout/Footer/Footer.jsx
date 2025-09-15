@@ -84,7 +84,7 @@ export default function Footer() {
                                 <List>
                                     <ListItem className="link">
                                         <NavLink
-                                            to="/showproductlist"
+                                            to="/products"
                                             className="navlink"
                                         >
                                             <Typography
@@ -94,39 +94,16 @@ export default function Footer() {
                                             </Typography>
                                         </NavLink>
                                     </ListItem>
+
                                     <ListItem className="link">
                                         <NavLink
-                                            to="/user/profile-details"
+                                            to="/signin"
                                             className="navlink"
                                         >
                                             <Typography
                                                 variant="body1"
                                             >
-                                                My Account
-                                            </Typography>
-                                        </NavLink>
-                                    </ListItem>
-                                    <ListItem className="link">
-                                        <NavLink
-                                            to="/login"
-                                            className="navlink"
-                                        >
-                                            <Typography
-                                                variant="body1"
-                                            >
-                                                Login
-                                            </Typography>
-                                        </NavLink>
-                                    </ListItem>
-                                    <ListItem className="link">
-                                        <NavLink
-                                            to="/registration"
-                                            className="navlink"
-                                        >
-                                            <Typography
-                                                variant="body1"
-                                            >
-                                                Register
+                                                SignIn
                                             </Typography>
                                         </NavLink>
                                     </ListItem>
@@ -161,7 +138,7 @@ export default function Footer() {
                                         </NavLink>
                                     </ListItem>
                                     <ListItem className="link">
-                                        <NavLink to="/contactus" className="navlink">
+                                        <NavLink to="/contact" className="navlink">
                                             <Typography
                                                 variant="body1"
                                             >
