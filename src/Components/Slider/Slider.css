@@ -1,0 +1,156 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+html {
+    font-size: 16px;
+}
+.home-slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background: #060606;
+}
+.mySwiper.swiper {
+    width: 90%;
+    height: 80vh;
+    background: #060606;
+}
+
+.mySwiper .swiper-slide {
+    background: #060606;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mySwiper .slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.mySwiper .slide .slide_content {
+    width: 45%;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.mySwiper .slide .slide_content p:nth-child(1) {
+    font-family: "Poppins", serif;
+    font-weight: 300;
+    font-size: calc(1rem + 1.1vw);
+}
+.mySwiper .slide .slide_content h2 {
+    font-family: "Poppins", serif;
+    font-weight: 500;
+    font-size: calc(2rem + 1.7vw);
+}
+.mySwiper .slide .slide_content p:last-child {
+    font-family: "Poppins", serif;
+    font-weight: 300;
+    font-size: calc(1rem + 0.24vw);
+}
+.mySwiper .slide .silde_img {
+    width: 40%;
+}
+.mySwiper .slide .silde_img img {
+    width: 100%;
+    height: auto;
+}
+
+.mySwiper .swiper-button-prev,
+.mySwiper .swiper-button-next {
+    background-color: #fff;
+    color: #060606;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+}
+.mySwiper .swiper-button-prev {
+    transform: translateX(-73px);
+}
+.mySwiper .swiper-button-next {
+    transform: translateX(73px);
+}
+.mySwiper .swiper-button-prev:hover,
+.mySwiper .swiper-button-next:hover {
+    background-color: #e7b360;
+    color: #fff;
+}
+.mySwiper:hover .swiper-button-prev,
+.mySwiper:hover .swiper-button-next {
+    transform: translateX(0);
+    opacity: 1;
+}
+.mySwiper .swiper-button-prev:after, .swiper-button-next:after{
+  font-size: calc(1rem);
+}
+/* responsive media */
+@media (width <= 1440px) {
+    .mySwiper .slide .slide_content p:nth-child(1) {
+        font-size: calc(1rem + 1vw);
+    }
+    .mySwiper .slide .slide_content h2 {
+        font-size: calc(1.7rem + 1.8vw);
+    }
+    .mySwiper .slide .slide_content p:last-child {
+        font-size: calc(0.9rem + 0.2vw);
+    }
+}
+@media (width <= 1024px) {
+    .mySwiper .slide .slide_content h2 {
+        font-size: calc(1.6rem + 1.4vw);
+    }
+    
+}
+@media (width <= 768px) {
+    .mySwiper .slide .slide_content h2 {
+        font-size: calc(1.45rem + 1vw);
+    }
+    
+}
+@media (width <= 650px) {
+    .mySwiper .slide {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .mySwiper .slide .slide_content {
+        width: 100%;
+    }
+    .mySwiper.swiper {
+        height: 100vh;
+    }
+    .mySwiper .slide .silde_img {
+        width: 78%;
+    }
+    .mySwiper .slide .slide_content h2 {
+        font-size: calc(1.6rem + 1.4vw);
+    }
+
+}
+@media (width <= 426px) {
+    .mySwiper .slide {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .mySwiper .slide .slide_content {
+        width: 100%;
+    }
+    .mySwiper.swiper {
+        height: 100vh;
+    }
+    .mySwiper .slide .silde_img {
+        width: 100%;
+    }
+    
+}
+@media (width <= 320px) {
+    
+    .mySwiper .slide .slide_content h2 {
+        font-size: calc(1.4rem + 1vw);
+    }
+}

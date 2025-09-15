@@ -1,0 +1,182 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+html {
+    font-size: 16px;
+}
+
+.contact-container {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 40px 0;
+    background-color: #ddd3cccf;
+}
+.contact {
+    width: 80%;
+    min-height: 500px;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background-color: transparent;
+}
+.contact .contact-address {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.contact .contact-address .contact-icon {
+    width: 200px;
+    display: flex;
+    justify-content: center;
+}
+.contact .contact-address .contact-icon .contact-img{
+    width: 100%;
+}
+/* .contact .contact-address .css-b7dj7n-MuiList-root {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+} */
+
+/* .contact .contact-address .css-cfd5wn-MuiListItem-root {
+    padding-left: 0;
+} */
+/* .contact .contact-address .css-1umw9bq-MuiSvgIcon-root {
+    font-family: "Poppins", serif;
+    font-weight: 300;
+    font-size: calc(1rem + 1.1vw);
+    color: #e7b360;
+} */
+
+/* .contact .contact-address .css-rizt0-MuiTypography-root {
+    font-family: "Poppins", serif;
+    font-weight: 300;
+    font-size: calc(1rem + 1.1vw);
+} */
+
+.contact .contact-form {
+    width: 46%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.contact .contact-form .contact-heading{
+    width: 100%;
+    text-align: center;
+}
+.contact .contact-form h4 {
+    color: #e7b360;
+    font-family: "Poppins", serif;
+    font-weight: 500;
+    font-size: calc(1rem + 1.1vw);
+
+}
+.contact .contact-form p {
+    color: #000;
+    font-family: "Poppins", serif;
+    font-weight: 500;
+    font-size: calc(1rem + 1.1vw);
+}
+.contact .contact-form .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+
+    gap: 30px;
+}
+
+/* .css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input::placeholder {
+    font-style: italic; 
+} */
+/* .css-1abvrni-MuiButtonBase-root-MuiButton-root{
+    background-color: #e7b360 !important;
+} */
+
+.contact-location{
+    width: 80%;
+    height: 500px;
+}
+.contact-location .map{
+    width: 100%;
+    height: 100%;
+}
+
+/* .contact-container .css-cokf1l-MuiListItemIcon-root{
+    min-width: 38px;
+} */
+@media (width <= 1024px){
+    .contact {
+        gap: 40px;
+    }
+    .contact .contact-form h4 {
+        font-size: calc(1.3rem + 1vw);
+
+    }
+    .contact .contact-form {
+        width: 46%;
+    }
+}
+@media (width <= 992px){
+    .contact {
+        gap: 40px;
+        flex-direction: column;
+        align-items: center;
+    }
+    .contact .contact-form h4 {
+        font-size: calc(1.3rem + 1vw);
+
+    }
+    .contact .contact-form {
+        width: 50%;
+    }
+    /* .contact .contact-address .css-rizt0-MuiTypography-root{
+        text-align: center;
+    } */
+}
+@media (width <= 600px){
+    .contact {
+        gap: 40px;
+        flex-direction: column;
+        align-items: center;
+        
+    }
+    .contact .contact-form h4 {
+        font-size: calc(1.3rem + 1vw);
+
+    }
+    .contact .contact-form {
+        width: 50%;
+    }
+}
+@media (width <= 500px){
+    .contact {
+        gap: 40px;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+    }
+    .contact .contact-form h4 {
+        font-size: calc(1.3rem + 1vw);
+
+    }
+    .contact .contact-form {
+        width: 100%;
+    }
+    /* .contact-container .css-cokf1l-MuiListItemIcon-root {
+        min-width: 28px;
+    } */
+    .contact .contact-address .contact-icon{
+        width: 130px;
+    }
+}
