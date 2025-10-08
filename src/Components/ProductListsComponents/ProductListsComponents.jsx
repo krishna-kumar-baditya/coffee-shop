@@ -35,7 +35,7 @@ const ProductListsComponent = ({ products }) => {
                 .then((res) => {
                     toast.success(res?.message);
                     navigate("/dashboard/productlists");
-                    dispatch(productLists())
+                    dispatch(productLists());
                 })
                 .catch((error) => {
                     toast.error(error?.message);
@@ -65,6 +65,15 @@ const ProductListsComponent = ({ products }) => {
                     <p className="text-amber-700 mt-1">
                         Discover our handcrafted blends
                     </p>
+                </div>
+
+                <div className="mb-4">
+                    <Link
+                        to="/dashboard/insertProduct"
+                        className=" text-2xl font-bold text-fuchsia-50 rounded-2xl bg-amber-900 py-2 px-2.5 "
+                    >
+                        Add Product
+                    </Link>
                 </div>
 
                 {/* Mobile: Product Cards */}
@@ -97,7 +106,7 @@ const ProductListsComponent = ({ products }) => {
                                         <span className="text-xl font-bold text-amber-800">
                                             ₹{product.price.toFixed(2)}
                                         </span>
-                                        {product.discountPrice > 0 ?  (
+                                        {product.discountPrice > 0 ? (
                                             <span className="text-sm text-amber-500 line-through">
                                                 ₹
                                                 {product.discountPrice.toFixed(
@@ -208,7 +217,8 @@ const ProductListsComponent = ({ products }) => {
                                                             2
                                                         )}
                                                     </span>
-                                                    {product.discountPrice > 0 && (
+                                                    {product.discountPrice >
+                                                        0 && (
                                                         <span className="text-xs text-amber-500 line-through">
                                                             ₹
                                                             {product.discountPrice.toFixed(

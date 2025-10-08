@@ -103,7 +103,7 @@ function Routing() {
     return (
         <>
             <Router>
-                <Header />
+                {/* <Header /> */}
                 <Suspense fallback="Loading...">
                     <Routes>
                         {PublicRoutesNames?.map((route, index) => {

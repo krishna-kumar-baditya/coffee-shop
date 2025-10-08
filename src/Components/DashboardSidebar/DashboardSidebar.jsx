@@ -54,11 +54,11 @@ function DashboardSidebar() {
             const isMobileNow = window.innerWidth < 1024;
             setIsMobile(isMobileNow);
 
-            if (isMobileNow) {
-                dispatch({ type: "OPEN" }); // Mobile: always open
-            } else {
-                dispatch({ type: "CLOSE" }); // Desktop: only close if user didn't touch it
-            }
+            // if (isMobileNow) {
+            //     dispatch({ type: "OPEN" }); // Mobile: always open
+            // } else {
+            //     dispatch({ type: "CLOSE" }); // Desktop: only close if user didn't touch it
+            // }
         };
 
         checkWidth(); // Run on mount
@@ -68,33 +68,33 @@ function DashboardSidebar() {
     }, [dispatch]);
 
     // Close sidebar on Escape key (mobile only)
-    useEffect(() => {
-        const handleEscape = (e) => {
-            if (e.key === "Escape" && isMobile && isOpen) {
-                dispatch({ type: "CLOSE" });
-            }
-        };
+    // useEffect(() => {
+    //     const handleEscape = (e) => {
+    //         if (e.key === "Escape" && isMobile && isOpen) {
+    //             dispatch({ type: "CLOSE" });
+    //         }
+    //     };
 
-        window.addEventListener("keydown", handleEscape);
-        return () => window.removeEventListener("keydown", handleEscape);
-    }, [isMobile, isOpen, dispatch]);
+    //     window.addEventListener("keydown", handleEscape);
+    //     return () => window.removeEventListener("keydown", handleEscape);
+    // }, [isMobile, isOpen, dispatch]);
 
     console.log("isOpen:", isOpen, "isMobile:", isMobile);
 
     return (
         <>
             {/* Overlay to close sidebar on click (mobile only) */}
-            {isOpen && isMobile && (
-                <div
+            {/* {isOpen && isMobile && ( */}
+                {/* <div
                     className="fixed top-0 left-0 w-full h-screen bg-opacity-50 z-30"
                     onClick={toggle}
                     aria-label="Close sidebar overlay"
-                ></div>
-            )}
+                ></div> */}
+            {/* )} */}
 
             {/* Toggle Button (hidden on desktop) */}
             <button
-                className={`lg:hidden absolute transition-all ease-in-out duration-200 text-2xl text-amber-900 z-50 ${
+                className={` absolute transition-all ease-in-out duration-200 text-2xl text-amber-900 z-50 ${
                     isOpen ? "left-50 top-7" : "left-4 top-7"
                 }`}
                 onClick={toggle}
@@ -105,7 +105,7 @@ function DashboardSidebar() {
 
             {/* Sidebar Content */}
             <aside
-                className={`bg-gradient-to-b from-amber-50 to-amber-100 border-r border-amber-200 flex flex-col h-screen w-64 fixed lg:static left-0 top-0 shadow-lg z-40 transition-all duration-300 ease-in-out ${
+                className={`bg-gradient-to-b from-amber-50 to-amber-100 border-r border-amber-200 flex flex-col h-screen w-64 fixed ${!isMobile && isOpen && ' lg:static'} left-0 top-0 shadow-lg z-40 transition-all duration-300 ease-in-out ${
                     isOpen ? "translate-x-0" : "-translate-x-[107%]"
                 }`}
                 aria-label="Main navigation sidebar"
