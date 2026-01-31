@@ -54,11 +54,6 @@ function DashboardSidebar() {
             const isMobileNow = window.innerWidth < 1024;
             setIsMobile(isMobileNow);
 
-            // if (isMobileNow) {
-            //     dispatch({ type: "OPEN" }); // Mobile: always open
-            // } else {
-            //     dispatch({ type: "CLOSE" }); // Desktop: only close if user didn't touch it
-            // }
         };
 
         checkWidth(); // Run on mount
@@ -67,17 +62,6 @@ function DashboardSidebar() {
         return () => window.removeEventListener("resize", checkWidth);
     }, [dispatch]);
 
-    // Close sidebar on Escape key (mobile only)
-    // useEffect(() => {
-    //     const handleEscape = (e) => {
-    //         if (e.key === "Escape" && isMobile && isOpen) {
-    //             dispatch({ type: "CLOSE" });
-    //         }
-    //     };
-
-    //     window.addEventListener("keydown", handleEscape);
-    //     return () => window.removeEventListener("keydown", handleEscape);
-    // }, [isMobile, isOpen, dispatch]);
 
     console.log("isOpen:", isOpen, "isMobile:", isMobile);
 

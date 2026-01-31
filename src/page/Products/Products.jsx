@@ -1,14 +1,52 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { productLists } from "../../Redux/Slice/productSlice";
 import { useEffect } from "react";
+import { addToCart, incrementQuantity, decrementQuantity } from "../../Redux/Slice/cartSlice";
+import toast from "react-hot-toast";
 const PublicProductShowcase = () => {
-        const dispatch = useDispatch();
-    const {products} = useSelector((state)=> state.prodKey)
-    useEffect(()=>{
-        dispatch(productLists())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { products } = useSelector((state) => state.prodKey);
+    const { isUserLoggedIn } = useSelector((state) => state.userAuthKey);
+    const cartItems = useSelector((state) => state.cartKey?.items || []);
+
+    useEffect(() => {
+        dispatch(productLists());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // Check if product is in cart
+    const isProductInCart = (productId) => {
+        return cartItems.some((item) => item.id === productId);
+    };
+
+    // Get cart item quantity
+    const getCartItemQuantity = (productId) => {
+        const item = cartItems.find((item) => item.id === productId);
+        return item ? item.quantity : 0;
+    };
+
+    // Handle add to cart
+    const handleAddToCart = (product) => {
+        if (!isUserLoggedIn) {
+            toast.error("Please sign in to add items to cart");
+            navigate("/user/signin");
+            return;
+        }
+        dispatch(addToCart(product));
+        toast.success(`${product.name} added to cart!`);
+    };
+
+    // Handle increment quantity
+    const handleIncrement = (productId) => {
+        dispatch(incrementQuantity(productId));
+    };
+
+    // Handle decrement quantity
+    const handleDecrement = (productId) => {
+        dispatch(decrementQuantity(productId));
+    };
 
   return (
     <div className="py-12 px-4 bg-gradient-to-b from-amber-50 to-white min-h-screen">
@@ -113,25 +151,76 @@ const PublicProductShowcase = () => {
                     >
                       View Details
                     </Link>
-                    <button
-                      className="p-3 bg-white border-2 border-amber-300 text-amber-700 rounded-2xl hover:bg-amber-50 hover:border-amber-400 hover:text-amber-900 transition-all duration-300"
-                      aria-label="Add to cart"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                    
+                    {/* Cart Controls */}
+                    {/* {isProductInCart(product._id) ? (
+                      <div className="flex items-center gap-2 bg-amber-50 border-2 border-amber-300 rounded-2xl px-3">
+                        <button
+                          onClick={() => handleDecrement(product._id)}
+                          className="p-1 text-amber-700 hover:text-amber-900 hover:bg-amber-200 rounded-lg transition-colors"
+                          aria-label="Decrease quantity"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M20 12H4"
+                            />
+                          </svg>
+                        </button>
+                        <span className="text-amber-900 font-semibold min-w-[24px] text-center">
+                          {getCartItemQuantity(product._id)}
+                        </span>
+                        <button
+                          onClick={() => handleIncrement(product._id)}
+                          className="p-1 text-amber-700 hover:text-amber-900 hover:bg-amber-200 rounded-lg transition-colors"
+                          aria-label="Increase quantity"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 4v16m8-8H4"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    ) : ( */}
+                      {/* <button
+                        onClick={() => handleAddToCart(product)}
+                        className="p-3 bg-white border-2 border-amber-300 text-amber-700 rounded-2xl hover:bg-amber-50 hover:border-amber-400 hover:text-amber-900 transition-all duration-300"
+                        aria-label="Add to cart"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                        />
-                      </svg>
-                    </button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                          />
+                        </svg>
+                      </button>
+                    )} */}
                   </div>
                 </div>
               </div>

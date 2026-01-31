@@ -8,6 +8,7 @@ import {
 import { Suspense, lazy, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { checkToken } from "../Redux/Slice/authSlice";
+import { checkUserToken } from "../Redux/Slice/userAuthSlice";
 
 // Lazy imports
 const Home = lazy(() => import("../page/Home/Home"));
@@ -24,6 +25,9 @@ const About = lazy(() => import("../page/AboutUs/AboutUs"));
 const Contact = lazy(() => import("../page/Contact/Contact"));
 const PublicProductShowcase = lazy(() => import("../page/Products/Products"));
 const ProductDetailPage = lazy(() => import("../page/ProductDetails/ProductDetails"));
+const UserSignIn = lazy(() => import("../page/User/SignIn/UserSignIn"));
+const UserSignUp = lazy(() => import("../page/User/SignUp/UserSignUp"));
+const CartPage = lazy(() => import("../page/Cart/Cart"));
 
 // Layouts
 import Footer from "../Layout/Footer/Footer";
@@ -49,7 +53,8 @@ function Routing() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(checkToken());
+        dispatch(checkToken()); // Check admin token
+        dispatch(checkUserToken()); // Check user token
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -64,6 +69,9 @@ function Routing() {
         { path: "/productsdetails/:id", component: <ProductDetailPage /> },
         { path: "/signup", component: <SignUp /> },
         { path: "/signin", component: <SignIn /> },
+        { path: "/user/signup", component: <UserSignUp /> },
+        { path: "/user/signin", component: <UserSignIn /> },
+        { path: "/cart", component: <CartPage /> },
         { path: "/aboutus", component: <About /> },
         { path: "/contact", component: <Contact /> },
         { path: "/forgot-password", component: <ForgotPasswordForm /> },

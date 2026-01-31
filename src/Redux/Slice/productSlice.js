@@ -8,6 +8,7 @@ const initialState = {
     specificProducts: null,
 };
 
+// create product
 export const insertProduct = createAsyncThunk(
     "auth/insertProduct",
     async (formData, { rejectWithValue }) => {
@@ -25,6 +26,7 @@ export const insertProduct = createAsyncThunk(
     }
 );
 
+// product lists
 export const productLists = createAsyncThunk(
     "auth/productLists",
     async (_, { rejectWithValue }) => {
@@ -38,6 +40,8 @@ export const productLists = createAsyncThunk(
         }
     }
 );
+
+// specific products
 export const getProducts = createAsyncThunk(
     "auth/getProducts",
     async (id, { rejectWithValue }) => {
@@ -53,6 +57,8 @@ export const getProducts = createAsyncThunk(
         }
     }
 );
+
+// update products
 export const updateProducts = createAsyncThunk(
     "auth/updateProducts",
     async ({ id, formData }, { rejectWithValue }) => {
@@ -69,6 +75,8 @@ export const updateProducts = createAsyncThunk(
         }
     }
 );
+
+// delete products
 export const deleteProducts = createAsyncThunk(
     "auth/deleteProducts",
     async (id, { rejectWithValue }) => {
@@ -84,6 +92,9 @@ export const deleteProducts = createAsyncThunk(
         }
     }
 );
+
+
+// product slice
 export const productSlice = createSlice({
     name: "productslice",
     initialState,
