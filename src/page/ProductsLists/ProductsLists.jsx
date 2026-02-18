@@ -1,21 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ProductListsComponent from "../../Components/ProductListsComponents/ProductListsComponents";
 import Dashboard from "../../Dashboards/Dashboard/Dashboard";
 import { useDispatch, useSelector } from "react-redux";
 import { productLists } from "../../Redux/Slice/productSlice";
+
 function ProductsLists() {
-    const dispatch = useDispatch()
-    const {products} = useSelector((state)=> state.prodKey)
-    useEffect(()=>{
-        dispatch(productLists())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    const dispatch = useDispatch();
+    const { products, totalPages, loading } = useSelector(
+        (state) => state.prodKey
+    );
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const limit = 5;
+
+    useEffect(() => {
+        dispatch(productLists({ page: currentPage, limit }));
+    }, [dispatch, currentPage]);
+
     return (
-        <>
-            <Dashboard>
-                <ProductListsComponent products={products} />
-            </Dashboard>
-        </>
+        <Dashboard>
+            <ProductListsComponent
+                products={products}
+                totalPages={totalPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                loading={loading}
+                limit={limit}
+            />
+        </Dashboard>
     );
 }
 

@@ -7,6 +7,7 @@ const CartPage = () => {
     const dispatch = useDispatch();
     const cartItems = useSelector((state) => state.cartKey?.items || []);
     const { isLogin } = useSelector((state) => state.authKey);
+    const { isUserLoggedIn } = useSelector((state) => state.userAuthKey);
 
     // Calculate total
     const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -28,27 +29,32 @@ const CartPage = () => {
         dispatch(clearCart());
         toast.success("Cart cleared");
     };
-
+    console.log("isLogin ",isLogin);
+    console.log("isUserLoggedIn ",isUserLoggedIn);
+    
     // Redirect to sign in if not logged in
-    if (!isLogin) {
-        return (
-            <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white flex items-center justify-center p-4">
-                <div className="text-center p-8 bg-white rounded-3xl shadow-lg border border-amber-100 max-w-md">
-                    <h2 className="text-2xl font-bold text-amber-900 mb-4">
-                        Please Sign In
-                    </h2>
-                    <p className="text-amber-700 mb-6">
-                        You need to be signed in to view your cart.
-                    </p>
-                    <Link
-                        to="/user/signin"
-                        className="inline-block bg-amber-900 text-white font-semibold py-3 px-6 rounded-2xl hover:bg-amber-800 transition-colors"
-                    >
-                        Sign In
-                    </Link>
+    if(!isLogin){
+
+        if (!isUserLoggedIn ) {
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white flex items-center justify-center p-4">
+                    <div className="text-center p-8 bg-white rounded-3xl shadow-lg border border-amber-100 max-w-md">
+                        <h2 className="text-2xl font-bold text-amber-900 mb-4">
+                            Please Sign In
+                        </h2>
+                        <p className="text-amber-700 mb-6">
+                            You need to be signed in to view your cart.
+                        </p>
+                        <Link
+                            to="/user/signin"
+                            className="inline-block bg-amber-900 text-white font-semibold py-3 px-6 rounded-2xl hover:bg-amber-800 transition-colors"
+                        >
+                            Sign In
+                        </Link>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 
     return (

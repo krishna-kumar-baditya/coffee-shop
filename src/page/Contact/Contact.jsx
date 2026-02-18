@@ -21,8 +21,7 @@ export default function Contact() {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = () => {
         
         toast.success("Form submitted");
     };

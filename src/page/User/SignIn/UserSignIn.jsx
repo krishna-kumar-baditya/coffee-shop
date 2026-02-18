@@ -21,16 +21,9 @@ function UserSignIn() {
         setLoading(true);
 
         try {
-            dispatch(userSignin(data))
-                .unwrap()
-                .then((res) => {
-                    console.log(res);
-                    toast.success(
-                        "✅ Welcome back! You're logged in."
-                    );
-                    // Redirect to home page after successful user sign-in
-                    navigate("/");
-                });
+            await dispatch(userSignin(data)).unwrap();
+            toast.success("Welcome back! You're logged in.");
+            navigate("/");
         } catch (error) {
             toast.error(
                 error || "Invalid email or password. Please try again."
@@ -197,4 +190,5 @@ function UserSignIn() {
 }
 
 export default UserSignIn;
+
 

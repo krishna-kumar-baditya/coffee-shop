@@ -18,28 +18,18 @@ function SignIn() {
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async (data) => {
-        setLoading(true); // Show loading state
+        setLoading(true);
 
         try {
-            dispatch(signin(data))
-                .unwrap()
-                .then((res) => {
-                    console.log(res);
-                    // 👇 Show success toast
-                    toast.success(
-                        "✅ Welcome back to Brew & Co.! You're logged in."
-                    );
-
-                    // 👇 Redirect to dashboard
-                    navigate("/dashboard");
-                });
+            await dispatch(signin(data)).unwrap();
+            toast.success("Welcome back to Brew & Co.! You're logged in.");
+            navigate("/dashboard");
         } catch (error) {
-            // 👇 Handle error from backend or network
             toast.error(
                 error || "Invalid email or password. Please try again."
             );
         } finally {
-            setLoading(false); // Hide loading state
+            setLoading(false);
         }
     };
 
@@ -268,3 +258,4 @@ function SignIn() {
 }
 
 export default SignIn;
+

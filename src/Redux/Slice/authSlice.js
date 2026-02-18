@@ -2,11 +2,17 @@ import axiosInstance from "../../Api/axiosInstance";
 import { endpoint } from "../../Api/endpoint";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-    loading: null,
-    isLogin: false,
-    isRegister: false,
+const loadAdminAuthState = () => {
+    const token = localStorage.getItem("token");
+
+    return {
+        loading: false,
+        isLogin: !!token,
+        isRegister: false,
+    };
 };
+
+const initialState = loadAdminAuthState();
 
 export const signup = createAsyncThunk(
     "auth/signup",
@@ -14,7 +20,7 @@ export const signup = createAsyncThunk(
         try {
             let res = await axiosInstance.post(
                 endpoint?.auth?.signup,
-                formData
+                formData,
             );
             let resData = res?.data;
             return resData;
@@ -22,7 +28,7 @@ export const signup = createAsyncThunk(
             const message = error?.response?.data?.message || error?.message;
             return rejectWithValue(message);
         }
-    }
+    },
 );
 export const signin = createAsyncThunk(
     "auth/signin",
@@ -30,15 +36,16 @@ export const signin = createAsyncThunk(
         try {
             let res = await axiosInstance.post(
                 endpoint?.auth?.signin,
-                formData
+                formData,
             );
             let resData = res?.data;
+            console.log("resData ", resData);
             return resData;
         } catch (error) {
             const message = error?.response?.data?.message || error?.message;
             return rejectWithValue(message);
         }
-    }
+    },
 );
 
 export const authSlice = createSlice({
@@ -46,10 +53,17 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         checkToken: (state) => {
+            console.log("check token called");
+            
             const token = localStorage.getItem("token");
-            if (token !== null || token !== undefined || token !== "") {
+            console.log("token ", token);
+
+            if (token) {
                 state.isLogin = true;
-                console.log("isLogin ", state.isLogin);
+                console.log("state.isLogin ", state.isLogin);
+            } else {
+                state.isLogin = false;
+                console.log("state.isLogin ", state.isLogin);
             }
         },
         logout: (state) => {
@@ -68,7 +82,7 @@ export const authSlice = createSlice({
                 state.isRegister = true;
             })
             .addCase(signup.rejected, (state) => {
-                state.loading = true;
+                state.loading = false;
                 state.isRegister = false;
             })
             .addCase(signin.pending, (state) => {
@@ -81,7 +95,7 @@ export const authSlice = createSlice({
                 localStorage.setItem("token", payload?.token);
             })
             .addCase(signin.rejected, (state) => {
-                state.loading = true;
+                state.loading = false;
                 state.isLogin = false;
             });
     },

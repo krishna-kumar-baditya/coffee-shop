@@ -1,52 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { productLists } from "../../Redux/Slice/productSlice";
 import { useEffect } from "react";
-import { addToCart, incrementQuantity, decrementQuantity } from "../../Redux/Slice/cartSlice";
-import toast from "react-hot-toast";
 const PublicProductShowcase = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const { products } = useSelector((state) => state.prodKey);
-    const { isUserLoggedIn } = useSelector((state) => state.userAuthKey);
-    const cartItems = useSelector((state) => state.cartKey?.items || []);
 
     useEffect(() => {
         dispatch(productLists());
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    // Check if product is in cart
-    const isProductInCart = (productId) => {
-        return cartItems.some((item) => item.id === productId);
-    };
-
-    // Get cart item quantity
-    const getCartItemQuantity = (productId) => {
-        const item = cartItems.find((item) => item.id === productId);
-        return item ? item.quantity : 0;
-    };
-
-    // Handle add to cart
-    const handleAddToCart = (product) => {
-        if (!isUserLoggedIn) {
-            toast.error("Please sign in to add items to cart");
-            navigate("/user/signin");
-            return;
-        }
-        dispatch(addToCart(product));
-        toast.success(`${product.name} added to cart!`);
-    };
-
-    // Handle increment quantity
-    const handleIncrement = (productId) => {
-        dispatch(incrementQuantity(productId));
-    };
-
-    // Handle decrement quantity
-    const handleDecrement = (productId) => {
-        dispatch(decrementQuantity(productId));
-    };
 
   return (
     <div className="py-12 px-4 bg-gradient-to-b from-amber-50 to-white min-h-screen">

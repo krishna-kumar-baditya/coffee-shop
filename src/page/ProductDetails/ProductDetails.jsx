@@ -10,7 +10,7 @@ const ProductDetailPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { specificProducts } = useSelector((state) => state.prodKey);
-    const { isLogin } = useSelector((state) => state.authKey);
+    const { isUserLoggedIn } = useSelector((state) => state.userAuthKey);
     // const cartItems = useSelector((state) => state.cartKey?.items || []);
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const ProductDetailPage = () => {
 
     // Handle add to cart
     const handleAddToCart = (product) => {
-        if (!isLogin) {
+        if (!isUserLoggedIn) {
             toast.error("Please sign in to add items to cart");
             navigate("/user/signin");
             return;

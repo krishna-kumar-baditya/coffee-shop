@@ -63,7 +63,6 @@ function DashboardSidebar() {
     }, [dispatch]);
 
 
-    console.log("isOpen:", isOpen, "isMobile:", isMobile);
 
     return (
         <>

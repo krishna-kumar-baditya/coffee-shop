@@ -12,9 +12,8 @@ function ForgetPasswordForm() {
 
     const newPassword = watch("password");
 
-    const onSubmit = async (data) => {
+    const onSubmit = async () => {
         try {
-            console.log(data);
 
             toast.success("✅ Your password has been updated successfully!");
             // Redirect to login after success

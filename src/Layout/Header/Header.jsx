@@ -10,6 +10,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Redux/Slice/authSlice";
+import { userLogout } from "../../Redux/Slice/userAuthSlice";
 import toast from "react-hot-toast";
 
 import "./Header.css";
@@ -22,18 +23,17 @@ export default function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    /* ✅ ADMIN AUTH STATE */
     const { isLogin } = useSelector((state) => state.authKey);
-    /* ✅ USER AUTH STATE */
-    // const { isUserLoggedIn } = useSelector((state) => state.userAuthKey);
+    const { isUserLoggedIn } = useSelector((state) => state.userAuthKey);
     const cartItems = useSelector((state) => state.cartKey?.items || []);
-
+    const isAnyLoggedIn = isLogin || isUserLoggedIn;
+    console.log("isAnyLoggedIn ",isAnyLoggedIn);
+    
     const cartCount = cartItems.reduce(
         (total, item) => total + item.quantity,
         0,
     );
 
-    /* ✅ SCROLL FIX */
     useEffect(() => {
         const navbarFix = () => {
             setFix(window.scrollY > 300);
@@ -44,7 +44,12 @@ export default function Header() {
     }, []);
 
     const handleUserLogout = () => {
-        dispatch(logout());
+        if (isLogin) {
+            dispatch(logout());
+        }
+        if (isUserLoggedIn) {
+            dispatch(userLogout());
+        }
         toast.success("Logged out successfully");
         navigate("/");
     };
@@ -61,7 +66,6 @@ export default function Header() {
             <AppBar className={fix ? "header fixed" : "header"}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters className="navbar-container">
-                        {/* MOBILE MENU */}
                         <Box sx={{ display: { xs: "flex", md: "none" } }}>
                             <IconButton
                                 onClick={(e) => setAnchorElNav(e.currentTarget)}
@@ -86,7 +90,7 @@ export default function Header() {
                                     </NavLink>
                                 ))}
 
-                                {!isLogin ? (
+                                {!isAnyLoggedIn ? (
                                     <NavLink to="/user/signin">
                                         <MenuItem>Sign In</MenuItem>
                                     </NavLink>
@@ -98,7 +102,6 @@ export default function Header() {
                             </Menu>
                         </Box>
 
-                        {/* LOGO */}
                         <NavLink to="/" className="navabr-img-container">
                             <img
                                 src={header_logo}
@@ -107,7 +110,6 @@ export default function Header() {
                             />
                         </NavLink>
 
-                        {/* DESKTOP LINKS */}
                         <Box className="navbar-link-container">
                             {pages.map((page) => (
                                 <NavLink
@@ -119,7 +121,7 @@ export default function Header() {
                                 </NavLink>
                             ))}
                         </Box>
-                        {/* CART ICON */}
+
                         <NavLink to="/cart" className="relative">
                             <IconButton sx={{ color: "#fff" }}>
                                 <ShoppingCartIcon />
@@ -147,9 +149,9 @@ export default function Header() {
                                 )}
                             </IconButton>
                         </NavLink>
-                        {/* ✅ SIGN IN / LOGOUT */}
+
                         <Box sx={{ display: "flex", gap: 2 }}>
-                            {!isLogin ? (
+                            {!isAnyLoggedIn ? (
                                 <NavLink
                                     to="/user/signin"
                                     className="no-underline font-semibold text-white px-4 py-2 bg-amber-700 hover:bg-amber-800 rounded-lg"

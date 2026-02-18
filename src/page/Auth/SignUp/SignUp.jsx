@@ -24,25 +24,24 @@ function SignUp() {
     const [previewUrl, setPreviewUrl] = useState(null);
 
     useEffect(() => {
+        let objectUrl;
+
         if (profilePicFile && profilePicFile.length > 0) {
-            const file = profilePicFile[0];
-            const url = URL.createObjectURL(file);
-            setPreviewUrl(url);
+            objectUrl = URL.createObjectURL(profilePicFile[0]);
+            setPreviewUrl(objectUrl);
         } else {
             setPreviewUrl(null);
         }
 
-        // Cleanup URL on unmount or change
         return () => {
-            if (previewUrl) {
-                URL.revokeObjectURL(previewUrl);
+            if (objectUrl) {
+                URL.revokeObjectURL(objectUrl);
             }
         };
     }, [profilePicFile]); // Removed eslint disable — it's safe now
 
     const onSubmit = async (data) => {
         try {
-            // 👇 Create FormData and append ALL fields including file
             const formData = new FormData();
             formData.append("firstName", data.firstName);
             formData.append("lastName", data.lastName);
@@ -50,25 +49,14 @@ function SignUp() {
             formData.append("password", data.password);
             formData.append("age", data.age);
 
-            // 👇 Append profile picture if selected
             if (profilePicFile && profilePicFile.length > 0) {
                 formData.append("profilePic", profilePicFile[0]);
             }
 
-            // 👇 Dispatch signup thunk with FormData
-            dispatch(signup(formData))
-                .unwrap()
-                .then((res) => {
-                    console.log(res);
-
-                    // 👇 On success
-                    toast.success(
-                        "✅ Welcome to Brew & Co.! Your account is ready."
-                    );
-                    navigate("/signin"); // Redirect to sign-in after successful signup
-                });
+            await dispatch(signup(formData)).unwrap();
+            toast.success("Welcome to Brew & Co.! Your account is ready.");
+            navigate("/signin");
         } catch (error) {
-            // 👇 Handle error from rejected promise
             toast.error(error || "Failed to create account. Please try again.");
         }
     };
@@ -416,3 +404,5 @@ function SignUp() {
 }
 
 export default SignUp;
+
+

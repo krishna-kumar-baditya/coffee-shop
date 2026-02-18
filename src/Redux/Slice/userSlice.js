@@ -31,13 +31,11 @@ export const userSlice = createSlice({
             state.loading = true
         })
         .addCase(profileDetails.fulfilled,(state,{payload})=>{
-            console.log("profileData ",payload?.data);
-            
             state.loading = false
             state.profileData = payload?.data
         })
         .addCase(profileDetails.rejected,(state)=>{
-            state.loading = true
+            state.loading = false
         })
     }
 })

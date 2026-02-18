@@ -16,13 +16,11 @@ function DashboardHeader() {
         dispatch(profileDetails());
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    console.log(profileData);
     const handleLogout = () => {
         dispatch(logout());
         toast.success("Logout");
         navigate('/signin')
     };
-    console.log("isMenuOpen ", isMenuOpen);
 
     return (
         <header className="bg-white w-full shadow-sm border-b border-amber-100 px-4 py-4 md:px-6">

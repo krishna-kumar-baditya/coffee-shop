@@ -15,7 +15,6 @@ function ProfilePage() {
         dispatch(profileDetails());
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    console.log(profileData);
 
     return (
         <>

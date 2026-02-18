@@ -25,18 +25,18 @@ function UserSignUp() {
     const [previewUrl, setPreviewUrl] = useState(null);
 
     React.useEffect(() => {
+        let objectUrl;
+
         if (profilePicFile && profilePicFile.length > 0) {
-            const file = profilePicFile[0];
-            const url = URL.createObjectURL(file);
-            setPreviewUrl(url);
+            objectUrl = URL.createObjectURL(profilePicFile[0]);
+            setPreviewUrl(objectUrl);
         } else {
             setPreviewUrl(null);
         }
 
-        // Cleanup URL on unmount or change
         return () => {
-            if (previewUrl) {
-                URL.revokeObjectURL(previewUrl);
+            if (objectUrl) {
+                URL.revokeObjectURL(objectUrl);
             }
         };
     }, [profilePicFile]);
@@ -44,7 +44,6 @@ function UserSignUp() {
     const onSubmit = async (data) => {
         setLoading(true);
         try {
-            // Create FormData and append ALL fields including file
             const formData = new FormData();
             formData.append("firstName", data.firstName);
             formData.append("lastName", data.lastName);
@@ -52,21 +51,13 @@ function UserSignUp() {
             formData.append("password", data.password);
             formData.append("age", data.age);
 
-            // Append profile picture if selected
             if (profilePicFile && profilePicFile.length > 0) {
                 formData.append("profilePic", profilePicFile[0]);
             }
 
-            // Dispatch user signup thunk with FormData
-            dispatch(userSignup(formData))
-                .unwrap()
-                .then((res) => {
-                    console.log(res);
-                    toast.success(
-                        "✅ Welcome to Brew & Co.! Your account is ready."
-                    );
-                    navigate("/user/signin"); // Redirect to user sign-in after successful signup
-                });
+            await dispatch(userSignup(formData)).unwrap();
+            toast.success("Welcome to Brew & Co.! Your account is ready.");
+            navigate("/user/signin");
         } catch (error) {
             toast.error(error || "Failed to create account. Please try again.");
         } finally {
@@ -424,4 +415,6 @@ function UserSignUp() {
 }
 
 export default UserSignUp;
+
+
 

@@ -7,7 +7,9 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     async function (config) {
-        const token = localStorage.getItem("token");
+        // Prefer user token when available, fallback to admin token.
+        const token =
+            localStorage.getItem("userToken") || localStorage.getItem("token");
         if (token !== null && token !== undefined && token !== "") {
             config.headers["token"] = token;
         }

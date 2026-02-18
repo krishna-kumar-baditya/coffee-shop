@@ -6,13 +6,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const loadUserAuthState = () => {
     try {
         const userToken = localStorage.getItem("userToken");
-        const userData = localStorage.getItem("userData");
-        if (userToken && userData) {
+        if (userToken ) {
             return {
                 loading: false,
-                isUserLoggedIn: true,
-                userToken: userToken,
-                userData: JSON.parse(userData),
+                isUserLoggedIn: !!userToken,
             };
         }
     } catch (error) {
@@ -21,8 +18,6 @@ const loadUserAuthState = () => {
     return {
         loading: false,
         isUserLoggedIn: false,
-        userToken: null,
-        userData: null,
     };
 };
 
@@ -33,20 +28,19 @@ export const userSignup = createAsyncThunk(
     "userAuth/signup",
     async (formData, { rejectWithValue }) => {
         try {
-            // Add role as "user" to distinguish from admin
-            const userFormData = new FormData();
-            for (let key in formData) {
-                if (formData[key] instanceof File) {
-                    userFormData.append(key, formData[key]);
-                } else {
-                    userFormData.append(key, formData[key]);
-                }
+            // Ensure role is always attached for user registration.
+            const userFormData =
+                formData instanceof FormData ? formData : new FormData();
+            if (!(formData instanceof FormData)) {
+                Object.entries(formData || {}).forEach(([key, value]) => {
+                    userFormData.append(key, value);
+                });
             }
             userFormData.append("role", "user");
 
             let res = await axiosInstance.post(
                 endpoint?.auth?.signup,
-                userFormData
+                userFormData,
             );
             let resData = res?.data;
             return resData;
@@ -54,7 +48,7 @@ export const userSignup = createAsyncThunk(
             const message = error?.response?.data?.message || error?.message;
             return rejectWithValue(message);
         }
-    }
+    },
 );
 
 // User signin thunk
@@ -67,15 +61,16 @@ export const userSignin = createAsyncThunk(
             const userFormData = { ...formData };
             let res = await axiosInstance.post(
                 endpoint?.auth?.signin,
-                userFormData
+                userFormData,
             );
             let resData = res?.data;
+
             return resData;
         } catch (error) {
             const message = error?.response?.data?.message || error?.message;
             return rejectWithValue(message);
         }
-    }
+    },
 );
 
 export const userAuthSlice = createSlice({
@@ -84,23 +79,17 @@ export const userAuthSlice = createSlice({
     reducers: {
         checkUserToken: (state) => {
             const userToken = localStorage.getItem("userToken");
-            const userData = localStorage.getItem("userData");
-            if (userToken && userData) {
+            
+            if (userToken ) {
                 state.isUserLoggedIn = true;
-                state.userToken = userToken;
-                state.userData = JSON.parse(userData);
+                
             } else {
                 state.isUserLoggedIn = false;
-                state.userToken = null;
-                state.userData = null;
             }
         },
         userLogout: (state) => {
             state.isUserLoggedIn = false;
-            state.userToken = null;
-            state.userData = null;
             localStorage.removeItem("userToken");
-            localStorage.removeItem("userData");
         },
     },
     extraReducers: (builder) => {
@@ -109,7 +98,7 @@ export const userAuthSlice = createSlice({
             .addCase(userSignup.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(userSignup.fulfilled, (state, { payload }) => {
+            .addCase(userSignup.fulfilled, (state) => {
                 state.loading = false;
                 // Note: Signup doesn't automatically log in, user needs to sign in
             })
@@ -126,12 +115,9 @@ export const userAuthSlice = createSlice({
                 state.isUserLoggedIn = true;
                 state.userToken = payload?.token;
                 state.userData = payload?.user || payload?.data?.user || null;
-                
+
                 // Persist to localStorage
                 localStorage.setItem("userToken", payload?.token);
-                if (state.userData) {
-                    localStorage.setItem("userData", JSON.stringify(state.userData));
-                }
             })
             .addCase(userSignin.rejected, (state) => {
                 state.loading = false;
@@ -142,4 +128,3 @@ export const userAuthSlice = createSlice({
 
 export const { checkUserToken, userLogout } = userAuthSlice.actions;
 export default userAuthSlice.reducer;
-
